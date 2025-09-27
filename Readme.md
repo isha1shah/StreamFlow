@@ -49,7 +49,7 @@ cd ../Frontend
 npm install
 
 7.Update API base URL in your frontend code (e.g., axiosInstance.js):
-baseURL: "http://localhost:5000/api/v1"
+baseURL: "http://localhost:8000/api/v1"
 
 8.For live backend testing, use:
 const BASE_URL = "https://streamflow-production-93a6.up.railway.app/api/v1";
