@@ -1,0 +1,12 @@
+{
+  "name": "streamflow-root",
+  "private": true,
+  "scripts": {
+    "postinstall": "cd frontend && npm ci && npm run build",
+  "start": "node backend/src/index.js",
+    "dev": "concurrently \"cd backend && npm run dev\" \"cd frontend && npm run dev\""
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

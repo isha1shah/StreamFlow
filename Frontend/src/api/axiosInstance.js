@@ -2,8 +2,7 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
-  baseURL: "https://streamflow-f8ep.onrender.com/api/v1"
-,
+  baseURL: "/api/v1",
   withCredentials: true,
 });
 
