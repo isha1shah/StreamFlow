@@ -2,7 +2,7 @@
   "name": "streamflow-root",
   "private": true,
   "scripts": {
-    "postinstall": "cd frontend && npm ci && npm run build",
+    "postinstall": "cd Frontend && npm ci && npm run build",
   "start": "node backend/src/index.js",
     "dev": "concurrently \"cd backend && npm run dev\" \"cd frontend && npm run dev\""
   },
