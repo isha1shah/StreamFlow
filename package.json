@@ -3,8 +3,8 @@
   "private": true,
   "scripts": {
     "postinstall": "cd Frontend && npm ci && npm run build",
-  "start": "node backend/src/index.js",
-    "dev": "concurrently \"cd backend && npm run dev\" \"cd frontend && npm run dev\""
+  "start": "node Backend/src/index.js",
+    "dev": "concurrently \"cd Backend && npm run dev\" \"cd Frontend && npm run dev\""
   },
   "devDependencies": {
     "concurrently": "^8.2.2"
