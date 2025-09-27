@@ -1,10 +1,13 @@
-// src/api/axiosInstance.js
 import axios from "axios";
 
-const axiosInstance = axios.create({
-  baseURL: "/api/v1",
+export const BASE_URL = "https://streamflow-production-93a6.up.railway.app/api/v1";
+
+export const axiosInstance = axios.create({
+  baseURL: BASE_URL,
   withCredentials: true,
 });
+
+
 
 // Add token to requests
 axiosInstance.interceptors.request.use(

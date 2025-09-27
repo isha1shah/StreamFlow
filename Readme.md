@@ -1,20 +1,21 @@
-# StreamFlow 
+# StreamFlow - YouTube Clone
 
-A MERN stack project that mimics the functionality of YouTube. Users can register, login, upload videos, view video lists, and interact with content.  
+A full-stack MERN project that allows users to upload, watch, like, and comment on videos. Built with **MongoDB, Express, React, and Node.js**.
 
 ## Features
 
-- User authentication (JWT-based)
-- Upload and view videos
-- Search videos
-- Responsive UI built with React + TailwindCSS
-- Backend with Node.js, Express, MongoDB
-- Cloudinary integration for media uploads
+- User registration and authentication (JWT)
+- Upload videos and thumbnails
+- Update user profile, avatar, and cover image
+- Watch history tracking
+- Like and comment on videos
+- Channel dashboard with stats and liked videos
+- Responsive and modern UI
 
 ## Live Demo
 
-- **Frontend:** [https://isha1shah.github.io/StreamFlow](https://isha1shah.github.io/StreamFlow)  
-- **Backend API:** [https://streamflow-f8ep.onrender.com/api/v1](https://streamflow-f8ep.onrender.com/api/v1)
+- **Frontend:** [StreamFlow Frontend](https://isha1shah.github.io/StreamFlow)  
+- **Backend API:** [StreamFlow Backend](https://streamflow-production-93a6.up.railway.app/api/v1)
 
 ## Installation (Local Development)
 
@@ -51,7 +52,7 @@ npm install
 baseURL: "http://localhost:5000/api/v1"
 
 8.For live backend testing, use:
-baseURL: "https://streamflow-f8ep.onrender.com/api/v1"
+const BASE_URL = "https://streamflow-production-93a6.up.railway.app/api/v1";
 
 9.Run frontend locally:
 npm run dev
