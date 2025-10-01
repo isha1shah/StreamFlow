@@ -19,7 +19,7 @@ const app = express();
 
 // CORS (dynamic)
 app.use(cors({
-  origin: process.env.CORS_ORIGIN || "http://localhost:5173",
+  origin: true || process.env.CORS_ORIGIN || "http://localhost:5173",
   credentials: true,
 }));
 
