@@ -8,18 +8,44 @@ import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 
 // Generate Access and Refresh Tokens
+// const generateAccessAndRefreshTokens = async (userId) => {
+//   try {
+//     const user = await User.findById(userId);
+//     const accessToken = user.generateAccessToken();
+//     const refreshToken = user.generateRefreshToken();
+
+//     user.refreshToken = refreshToken;
+//     await user.save({ validateBeforeSave: false });
+
+//     return { accessToken, refreshToken };
+//   } catch (error) {
+//     throw new ApiError(500, "Error generating access and refresh tokens");
+//   }
+// };
+// Generate Access and Refresh Tokens - FIXED VERSION
 const generateAccessAndRefreshTokens = async (userId) => {
   try {
     const user = await User.findById(userId);
-    const accessToken = user.generateAccessToken();
-    const refreshToken = user.generateRefreshToken();
+    
+    // Generate tokens directly to avoid model method issues
+    const accessToken = jwt.sign(
+      { _id: user._id, email: user.email, username: user.username },
+      process.env.ACCESS_TOKEN_SECRET,
+      { expiresIn: process.env.ACCESS_TOKEN_EXPIRY || '1d' }
+    );
+    
+    const refreshToken = jwt.sign(
+      { _id: user._id },
+      process.env.REFRESH_TOKEN_SECRET,
+      { expiresIn: process.env.REFRESH_TOKEN_EXPIRY || '10d' }
+    );
 
     user.refreshToken = refreshToken;
     await user.save({ validateBeforeSave: false });
 
     return { accessToken, refreshToken };
   } catch (error) {
-    throw new ApiError(500, "Error generating access and refresh tokens");
+    throw new ApiError(500, "Error generating tokens");
   }
 };
 
@@ -64,32 +90,55 @@ const registerUser = asyncHandler(async (req, res) => {
 });
 
 // ------------------- LOGIN -------------------
+// const loginUser = asyncHandler(async (req, res) => {
+//   const { email, username, password } = req.body;
+
+//   if (!username && !email) throw new ApiError(400, "Username or email is required");
+
+//   const user = await User.findOne({ $or: [{ username }, { email }] });
+//   if (!user) throw new ApiError(404, "User does not exist");
+
+//   const isPasswordValid = await user.isPasswordCorrect(password);
+//   if (!isPasswordValid) throw new ApiError(401, "Invalid user credentials");
+
+//   const { accessToken, refreshToken } = await generateAccessAndRefreshTokens(user._id);
+
+//   const loggedInUser = await User.findById(user._id).select("-password -refreshToken");
+
+//   const cookieOptions = {
+//     httpOnly: true,
+//   secure: false, // localhost
+//   sameSite: "lax", // false for localhost, true in production
+//   };
+
+//   return res
+//     .status(200)
+//     .cookie("accessToken", accessToken, cookieOptions)
+//     .cookie("refreshToken", refreshToken, cookieOptions)
+//     .json(new ApiResponse(200, { user: loggedInUser, accessToken, refreshToken }, "User logged in successfully"));
+// });
+// ------------------- LOGIN -------------------
 const loginUser = asyncHandler(async (req, res) => {
   const { email, username, password } = req.body;
-
-  if (!username && !email) throw new ApiError(400, "Username or email is required");
 
   const user = await User.findOne({ $or: [{ username }, { email }] });
   if (!user) throw new ApiError(404, "User does not exist");
 
   const isPasswordValid = await user.isPasswordCorrect(password);
-  if (!isPasswordValid) throw new ApiError(401, "Invalid user credentials");
+  if (!isPasswordValid) throw new ApiError(401, "Invalid credentials");
 
   const { accessToken, refreshToken } = await generateAccessAndRefreshTokens(user._id);
-
   const loggedInUser = await User.findById(user._id).select("-password -refreshToken");
-
-  const cookieOptions = {
-    httpOnly: true,
-  secure: false, // localhost
-  sameSite: "lax", // false for localhost, true in production
-  };
 
   return res
     .status(200)
-    .cookie("accessToken", accessToken, cookieOptions)
-    .cookie("refreshToken", refreshToken, cookieOptions)
-    .json(new ApiResponse(200, { user: loggedInUser, accessToken, refreshToken }, "User logged in successfully"));
+    .cookie("accessToken", accessToken, { httpOnly: true, secure: false })
+    .cookie("refreshToken", refreshToken, { httpOnly: true, secure: false })
+    .json(new ApiResponse(200, { 
+      user: loggedInUser, 
+      accessToken, 
+      refreshToken 
+    }, "Login successful"));
 });
 
 // ------------------- LOGOUT -------------------

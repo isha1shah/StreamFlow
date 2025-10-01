@@ -21,10 +21,10 @@ const uploadOnCloudinary = async (filePath, folder = "youtube_clone") => {
     // Remove local file after upload
      if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
 
-    console.log("✅ File uploaded successfully:", result.secure_url);
+    console.log("File uploaded successfully:", result.secure_url);
     return result;  // result.url or result.secure_url
   } catch (error) {
-    console.error("❌ Cloudinary upload error:", error.message);
+    console.error(" Cloudinary upload error:", error.message);
 
     // Remove local file if exists
     if (fs.existsSync(filePath)) fs.unlinkSync(filePath);

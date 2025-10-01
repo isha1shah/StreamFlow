@@ -1,6 +1,7 @@
 import axios from "axios";
 
-export const BASE_URL = "https://streamflow-production-93a6.up.railway.app/api/v1";
+// export const BASE_URL = "https://streamflow-production-93a6.up.railway.app/api/v1";
+export const BASE_URL = "http://localhost:8000/api/v1"; // Local backend URL
 
 export const axiosInstance = axios.create({
   baseURL: BASE_URL,

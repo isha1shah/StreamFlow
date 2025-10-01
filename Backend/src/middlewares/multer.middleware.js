@@ -4,7 +4,7 @@ import multer from "multer";
 import path from "path";
 import fs from "fs";
 
-// 1️⃣ Set up storage for uploaded files
+// 1️Set up storage for uploaded files
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     const uploadDir = "uploads/";
@@ -22,7 +22,7 @@ const storage = multer.diskStorage({
   }
 });
 
-// 2️⃣ File filter (accept only images)
+// 2️ File filter (accept only images)
 const imageFileFilter = (req, file, cb) => {
   if (file.mimetype.startsWith("image/")) {
     cb(null, true); // accept
@@ -31,7 +31,7 @@ const imageFileFilter = (req, file, cb) => {
   }
 };
 
-// 3️⃣ File filter (for videos)
+// 3️ File filter (for videos)
 const videoFileFilter = (req, file, cb) => {
   if (file.mimetype.startsWith("video/")) {
     cb(null, true); // accept
@@ -40,7 +40,7 @@ const videoFileFilter = (req, file, cb) => {
   }
 };
 
-// 4️⃣ Export upload functions
+// 4️Export upload functions
 export const uploadImage = multer({
   storage,
   fileFilter: imageFileFilter,
